@@ -17,8 +17,14 @@
 <body>
   <div class="container">
 		<div class="row">
-		  <div class="col-md-6">.col-md-6</div>
-		  <div class="col-md-6">.col-md-6</div>
+		  <div class="col-md-6">
+		  	<div class="well" id="input">
+		  	</div>
+		  </div>
+		  <div class="col-md-6">
+		  	<div class="well" id="output">
+		  	</div>
+		  </div>
 		</div>
   </div>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -32,7 +38,9 @@
 
   pubnub.subscribe({
     channel : "hello_world",
-    message : function(m){ alert(m) },
+    message : function(m){
+    	$('#output').append(m);
+    },
     connect : publish
   })
 
