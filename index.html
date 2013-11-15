@@ -4,9 +4,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>The HTML5 Herald</title>
-  <meta name="description" content="The HTML5 Herald">
-  <meta name="author" content="SitePoint">
+  <title>Pubnub Demo</title>
 
   <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
   <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
@@ -25,5 +23,25 @@
   </div>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+  <script src="http://cdn.pubnub.com/pubnub.min.js"></script>
+  <script>
+  var pubnub = PUBNUB.init({
+      publish_key   : 'demo',
+      subscribe_key : 'demo'
+  })
+
+  pubnub.subscribe({
+    channel : "hello_world",
+    message : function(m){ alert(m) },
+    connect : publish
+  })
+
+  function publish() {
+    pubnub.publish({
+      channel : "hello_world",
+      message : "Hi."
+    });
+  }
+  </script>
 </body>
 </html>
