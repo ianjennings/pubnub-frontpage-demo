@@ -12,20 +12,88 @@
   <!--[if lt IE 9]>
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
+
+  <style type="text/css">
+  .show-on-connect {
+  	display: none;
+  }
+  </style>
+
 </head>
 
 <body>
   <div class="container">
+
 		<div class="row">
-		  <div class="col-md-6">
-		  	<div class="well" id="input">
-		  	</div>
-		  </div>
-		  <div class="col-md-6">
-		  	<div class="well" id="output">
-		  	</div>
+		  <div class="col-md-12">
+
+		  	<hr />
+
+	    	<p>
+	    		<a class="btn btn-primary" id="connect">Connect</a>
+	    	</p>
+
+			  <ul class="nav nav-tabs show-on-connect">
+			    <li class="active"><a href="#subscribe" data-toggle="tab">Subscribe</a></li>
+			    <li><a href="#broadcast" data-toggle="tab">Broadcast</a></li>
+			  </ul>
+
 		  </div>
 		</div>
+
+	  <div class="tab-content show-on-connect">
+
+	    <div class="tab-pane active" id="subscribe">
+
+	    	<div class="row">
+	    		<div class="col-md-12">
+	    			<h1>Subscribe</h1>
+	    			<hr />
+	    		</div>
+	    	</div>
+
+	    	<div class="row">
+	    	  <div class="col-md-6">
+	    	  	<h3>Publish</h3>
+	    	  	<div class="well input">
+	    				<a class="btn btn-primary send">Send</a>
+	    	  	</div>
+	    	  </div>
+	    	  <div class="col-md-6">
+	    	  	<h3>Subscribe</h3>
+	    	  	<div class="well output">
+	    	  	</div>
+	    	  </div>
+	    	</div>
+
+	    </div>
+	    <div class="tab-pane" id="broadcast">
+
+	    	<div class="row">
+	    		<div class="col-md-12">
+	    			<h1>Broadcast</h1>
+	    			<hr />
+	    		</div>
+	    	</div>
+
+	    	<div class="row">
+	    	  <div class="col-md-6">
+	    	  	<h3>Publish</h3>
+	    	  	<div class="well input">
+	    	  	</div>
+	    	  </div>
+	    	  <div class="col-md-6">
+	    	  	<h3>Subscribe</h3>
+	    	  	<div class="well output">
+	    	  	</div>
+	    	  	<div class="well output">
+	    	  	</div>
+	    	  </div>
+	    	</div>
+
+	    </div>
+	  </div>
+
   </div>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
@@ -35,27 +103,36 @@
 
   	var self = this;
 
-  	self.pubnub = PUBNUB.init({
-  	    publish_key   : 'demo',
-  	    subscribe_key : 'demo'
-  	});
+  	self.init = function() {
 
-  	self.pubnub.subscribe({
-  	  channel : "hello_world",
-  	  message : function(m){
-  	  	$('#output').append(m);
-  	  },
-  	  connect : function(){
-  	  	self.publish();
-			}
-  	});
+	  	self.pubnub = PUBNUB.init({
+	  	    publish_key   : 'demo',
+	  	    subscribe_key : 'demo'
+	  	});
 
-  	self.publish = function() {
-  	  self.pubnub.publish({
-  	    channel : "hello_world",
-  	    message : "Hi."
-  	  });
+	  	self.pubnub.subscribe({
+	  	  channel : "fp_demo_subscrube",
+	  	  message : function(m){
+	  	  	$('#subscribe .output').append('<p>' + m + '</p>');
+	  	  },
+	  	  connect : function(){
+				}
+	  	});
+
+	  	console.log($('#subscribe .send'))
+	  	$('#subscribe .send').click(function(){
+	  	  self.pubnub.publish({
+	  	    channel : "fp_demo_subscrube",
+	  	    message : "Hi."
+	  	  });
+	  	});
+
   	}
+
+		$('#connect').click(function(){
+			$('.show-on-connect').show();
+			self.init();
+		});
 
 	})();
   </script>
